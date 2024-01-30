@@ -3,11 +3,14 @@ version: 2.1
 orbs:
   ruby: circleci/ruby@2.1.0
 
+parameters:
+  ubuntu-version:
+    type: string
+    default: "ubuntu-2004:current"
+
+
 jobs:
   test:
-    parameters:
-      ubuntu-version:
-        type: executor
     machine: 
       image: << parameters.ubuntu-version >>
     steps:
