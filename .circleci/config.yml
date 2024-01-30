@@ -3,19 +3,20 @@ version: 2.1
 orbs:
   ruby: circleci/ruby@2.1.0
 
-parameters:
-  ubuntu-version:
-    type: string
-    default: "ubuntu-2004:current"
-
 executors:
-  ruby-executor:
-    machine: 
-      image: << parameters.ubuntu-version >>
+  ubuntu-2204:
+    machine:
+      image: ubuntu-2204:2023.10.1
+  ubuntu-2004:
+    machine:
+      image: ubuntu-2004:2023.10.1
 
 jobs:
   test:
-    executor: ruby-executor
+    parameters:
+      ubuntu-version:
+        type: executor
+    executor: << parameters.ubuntu-version >>
     steps:
       - run:
           name: Running tests
@@ -33,4 +34,4 @@ workflows:
       - test:
           matrix:
             parameters:
-              ubuntu-version: ["ubuntu-2004:2023.10.1", "ubuntu-2204:2023.10.1"]
+              ubuntu-version: ["ubuntu-2004", "ubuntu-2204"]
