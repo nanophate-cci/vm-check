@@ -1,0 +1,30 @@
+version: 2.1
+
+orbs:
+  ruby: circleci/ruby@2.1.0
+
+jobs:
+  test:
+    parameters:
+      ubuntu-version:
+        type: executor
+    machine: 
+      image: << parameters.ubuntu-version >>
+    steps:
+      - run:
+          name: Running tests
+          command: echo "Running tests on << parameters.ubuntu-version >>"
+      - run: lsb_release -a
+      - ruby/install:
+          # trying to install EoL'ed Ruby 2.6.10 on an Ubuntu 20.04 now
+          # based on: https://github.com/rvm/rvm/issues/5254#issuecomment-1259479336
+          version: '2.6.10'
+          
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test:
+          matrix:
+            parameters:
+              ubuntu-version: ["ubuntu-2004:2023.10.1", "ubuntu-2204:2023.10.1"]
