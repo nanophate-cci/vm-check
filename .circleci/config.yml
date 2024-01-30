@@ -8,11 +8,14 @@ parameters:
     type: string
     default: "ubuntu-2004:current"
 
+executors:
+  ruby-executor:
+    machine: 
+      image: << parameters.ubuntu-version >>
 
 jobs:
   test:
-    machine: 
-      image: << parameters.ubuntu-version >>
+    executor: ruby-executor
     steps:
       - run:
           name: Running tests
